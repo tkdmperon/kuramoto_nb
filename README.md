@@ -2,18 +2,6 @@
 
 This repository contains C implementations of Kuramoto oscillators on networks generated using a negative binomial configuration model. The code supports parallel execution using OpenMP and flexible parameter input through command-line options.
 
-We consider $N$ phases $\theta_1,\dots,\theta_N$  that evolve in time according to the system of equations[^1]:
-$$
-\begin{equation}
-  \frac{d \theta_i}{d t} = \omega_i +  K\sum_{j=1}^N A_{ij} \sin{\left[\theta_j (t)  -  \theta_i (t)   \right]}
-  \label{kuramoto},
-\end{equation}
-$$
-where $K$ is the coupling strength, and $\{\omega_i\}_{i=1}^N$ are the natural frequencies, which are sampled from a normal distribution. The terms $\{A_{ij}\}_{i,j=1}^N$ are the elements of the adjacency matrix, where $A_{ii}=0 \; \forall i$. We also consider that the networks are directed, i.e., $A_{ij} \neq A_{ji}$. The in-degrees $k_i^{(in)} = \sum_{j=1}^N A_{ij}$ and the out-degrees $$k_i^{(out)} = \sum_{j=1}^N A_{ji}$$ are sampled from a negative binomial distribution[^2]: 
-$$
-P_k = \frac{\Gamma(\alpha + k)}{k! \, \Gamma(\alpha)} \left( \frac{c}{\alpha} \right)^k \left( \frac{\alpha}{ \alpha + c} \right)^{\alpha + k},
-$$
-where $c$ is the average degree and $\alpha > 0$ is the network heterogeneity parameter. For  $\alpha = 1$, $P_k$ becomes the exponential distribution, while in the limit $\alpha \rightarrow \infty$ it converges to the Poisson distribution. For $\alpha \rightarrow 0$, the variance  diverges, and nodes with unusually high number neighbors appear in the network.
 
 ---
 
@@ -94,11 +82,4 @@ gcc -fopenmp -o kur_dir KuramotoDirectedNB_with_function.c nb_kuramoto.c -ligrap
 ./kur_dir --vary_coupling 0 --start_param 2 --end_param 8 --num_params 7
 
 ```
-
-
-
-## References
-
-[^1]: Francisco A. Rodrigues, Thomas K. DM. Peron, Peng Ji, and Jürgen Kurths, The Kuramoto model in complex networks, *Physics Reports*, vol. 610, 1-98, 2016. [DOI](https://doi.org/10.1016/j.physrep.2015.10.008)[^1].
-[^2]: Fernando L Metz and Thomas Peron, Mean-field theory of vector spin models on networks with arbitrary degree distributions, *Journal of Physics: Complexity*, vol. 3, 015008, 2022. [DOI](https://doi.org/10.1088/2632-072X/ac4bed)
 
